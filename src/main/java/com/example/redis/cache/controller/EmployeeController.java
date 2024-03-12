@@ -6,6 +6,7 @@ import com.example.redis.cache.repository.EmployeeRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CacheConfig(cacheNames = "employee")
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -35,7 +37,7 @@ public class EmployeeController {
 
     @GetMapping("/employees/{employeeId}")
     @Cacheable(value = "employees", key="#employeeId")
-    public Employee findEmployeeById(@PathVariable Integer employeeId) throws Exception {
+    public Employee findEmployeeById(@PathVariable("employeeId") Integer employeeId) throws Exception {
         System.out.println("Employee fetching from database:: "+employeeId);
         return employeeRepository.findById(employeeId).orElseThrow(
                 () -> new Exception("Employee not found" + employeeId));

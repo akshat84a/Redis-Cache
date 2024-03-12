@@ -2,21 +2,23 @@
 spring:
   cache:
     type: redis
-    redis:
-      time-to-live: 60000
-      cache-null-values: true
+  redis:
+    host: localhost
+    port: 6379
+    time-to-live: 60000
+    cache-null-values: true
 
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?useSSL=false
+    url: jdbc:mysql://localhost:3306/rediscachepractice?useSSL=false
     username: root
-    password: admin@123
+    password: password
     hikari:
       initialization-fail-timeout: 0
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5Dialect
-    generate-ddl: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: false
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto:
